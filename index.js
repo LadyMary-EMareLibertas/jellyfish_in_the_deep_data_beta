@@ -7,7 +7,7 @@ const lengthDisplay = document.getElementById("lengthDisplay");
 const polypVisual = document.getElementById("polypVisual");
 
 // 기준 시간 (UTC) — 해파리 생애 시작 시점
-const originTime = new Date("2025-06-10T00:00:00Z");
+const originTime = new Date("2025-06-11T00:00:00Z");
 
 // 상태별 표시 이름
 const phaseLabelMap = {
@@ -19,10 +19,10 @@ const phaseLabelMap = {
 
 // 상태별 지속 시간 (초)
 const phaseDurations = {
-  polyp: 604800, // 7일
-  ephyra: 5184000, // 60일
-  medusa: 10368000, // 120일
-  medusaEnd: 604800, // 7일
+  polyp: 259200, // 3일
+  ephyra: 604800, // 7일
+  medusa: 604800, // 7일
+  medusaEnd: 259200, // 7일
 };
 
 // 초를 일, 시간, 분, 초로 포맷팅
@@ -230,12 +230,13 @@ function scheduleDailyStatusReset() {
 // 초기화 함수
 function init() {
   updateDisplay();
-  setInterval(updateDisplay, 604800000); // 7일마다 상태 업데이트
+  setInterval(updateDisplay, 86400000); // 1일마다 상태 업데이트
   move();
-  updateTimerCountdown(); //이 줄이 있어야 타이머가 매 프레임 돌음
+  updateTimerCountdown(); // 이 줄이 있어야 타이머가 매 프레임 돌음
   setInterval(updateBodyLength, 300);
   scheduleDailyStatusReset();
 }
+
 // 상태 메시지 그룹
 const statusMessages = {
   polyp: [
