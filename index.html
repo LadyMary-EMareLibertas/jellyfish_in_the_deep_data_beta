@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jellyfish in the Deep Computer</title>
+    <style>
+      body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+        font-family: monospace;
+        color: white;
+      }
+
+      #info {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        line-height: 1.6;
+        z-index: 10;
+      }
+
+      #jellyfish {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        pointer-events: none;
+        transition: transform 0.6s ease;
+        display: none;
+        z-index: 1;
+      }
+
+      #polypVisual {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 32px;
+        height: 32px;
+        transform: translate(-50%, -50%);
+        display: none;
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info">
+      픽셀해파리<br />
+      태어난 날: 2025년 6월 10일<br />
+      <span id="cycleDisplay">1</span>회차 / <span id="stageDisplay">플립</span
+      ><br />
+      해파리의 상태:
+      <span id="statusText">해파리가 잠시 모습을 감췄습니다.</span><br />
+      몸길이: <span id="lengthDisplay">계산 중...</span><br />
+      <span id="timerLine">다음 성장까지: 계산 중...</span><br />
+
+      <br />
+
+      학명: <span>Bitpelagia suspendata</span><br />
+      계: Animalia<br />
+      문: Cnidaria<br />
+      아문: Medusozoa<br />
+      강: Scyphozoa<br />
+      서식지: 수심 17,300km 부근 데이터 심해<br />
+      먹이: 잉여 전기
+    </div>
+
+    <!-- ✅ 이름 바뀐 파일 반영 -->
+    <img id="jellyfish" src="medusa.gif" alt="Jellyfish" />
+
+    <img id="polypVisual" src="polyp.gif" alt="Polyp Jellyfish" />
+    <script src="statusMessages.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
