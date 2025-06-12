@@ -19,10 +19,10 @@ const phaseLabelMap = {
 
 // 상태별 지속 시간 (초)
 const phaseDurations = {
-  polyp: 5, // 259200, // 3일
-  ephyra: 5, //604800, // 7일
-  medusa: 5, //604800, // 7일
-  medusaEnd: 5, // 259200, // 3일
+  polyp: 259200, // 3일
+  ephyra: 604800, // 7일
+  medusa: 604800, // 7일
+  medusaEnd: 259200, // 3일
 };
 
 // 초를 일, 시간, 분, 초로 포맷팅
@@ -241,12 +241,13 @@ function scheduleDailyStatusReset() {
   }, timeoutMs);
 }
 
+// 초기화 함수
 function init() {
   updateDisplay();
   setInterval(updateDisplay, 1000);
   setInterval(updateTimerCountdown, 1000);
   setInterval(updateBodyLength, 300);
-  setInterval(move, 100); // ✅ 이거 추가
+  setInterval(move, 100);
   scheduleDailyStatusReset();
 }
 
