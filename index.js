@@ -19,10 +19,10 @@ const phaseLabelMap = {
 
 // 상태별 지속 시간 (초)
 const phaseDurations = {
-  polyp: 259200, // 3일
-  ephyra: 604800, // 7일
-  medusa: 604800, // 7일
-  medusaEnd: 259200, // 7일
+  polyp: 5, // 259200, // 3일
+  ephyra: 5, //604800, // 7일
+  medusa: 5, //604800, // 7일
+  medusaEnd: 5, // 259200, // 3일
 };
 
 // 초를 일, 시간, 분, 초로 포맷팅
@@ -56,7 +56,6 @@ function updateTimerCountdown() {
   }
 
   timerLine.innerHTML = `다음 성장까지: ${formatTime(remainingSec)}`;
-  requestAnimationFrame(updateTimerCountdown);
 }
 
 // 성장률 (단계별 몸길이 증가 속도)
@@ -144,7 +143,6 @@ function updateDisplay() {
   }
 }
 
-// 성장 카운트다운
 function updateTimerCountdown() {
   const { secondsInCycle, phase } = getCycleAndPhase();
   let remainingSec = 0;
@@ -159,7 +157,6 @@ function updateTimerCountdown() {
   }
 
   timerLine.innerHTML = `다음 성장까지: ${formatTime(remainingSec)}`;
-  requestAnimationFrame(updateTimerCountdown);
 }
 
 // 몸길이 계산
@@ -181,35 +178,52 @@ function updateBodyLength() {
   lengthDisplay.textContent = `${growth.toFixed(2)} cm`;
 }
 
-// 움직임
+// 해파리 움직임 설정
 let pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let angle = Math.random() * 2 * Math.PI;
-let speed = 0.3;
+let speed = 1.2;
 let lastDirectionChange = Date.now();
 let directionChangeInterval = 3000;
 
 function move() {
   const { phase } = getCycleAndPhase();
-  if (isJellyfishVisible(phase)) {
-    const now = Date.now();
-    if (now - lastDirectionChange > directionChangeInterval) {
-      angle += ((Math.random() - 0.5) * Math.PI) / 6;
-      lastDirectionChange = now;
-    }
+  if (!isJellyfishVisible(phase)) return;
 
-    pos.x += Math.cos(angle) * speed;
-    pos.y += Math.sin(angle) * speed;
-
-    if (pos.x < 0 || pos.x > window.innerWidth - 32) angle = Math.PI - angle;
-    if (pos.y < 0 || pos.y > window.innerHeight - 32) angle = -angle;
-
-    jellyfish.style.left = `${pos.x}px`;
-    jellyfish.style.top = `${pos.y}px`;
+  const now = Date.now();
+  if (now - lastDirectionChange > directionChangeInterval) {
+    angle += ((Math.random() - 0.5) * Math.PI) / 6;
+    lastDirectionChange = now;
   }
 
-  requestAnimationFrame(move);
-}
+  pos.x += Math.cos(angle) * speed;
+  pos.y += Math.sin(angle) * speed;
 
+  const margin = 32;
+  const nudge = 10;
+
+  function randomAngle() {
+    return Math.random() * 2 * Math.PI;
+  }
+
+  if (pos.x <= 0) {
+    pos.x = 0 + nudge;
+    angle = randomAngle();
+  }
+  if (pos.x >= window.innerWidth - margin) {
+    pos.x = window.innerWidth - margin - nudge;
+    angle = randomAngle();
+  }
+  if (pos.y <= 0) {
+    pos.y = 0 + nudge;
+    angle = randomAngle();
+  }
+  if (pos.y >= window.innerHeight - margin) {
+    pos.y = window.innerHeight - margin - nudge;
+    angle = randomAngle();
+  }
+
+  jellyfish.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+}
 // 매일 5시에 상태 메시지 초기화
 function scheduleDailyStatusReset() {
   const now = new Date();
@@ -227,13 +241,12 @@ function scheduleDailyStatusReset() {
   }, timeoutMs);
 }
 
-// 초기화 함수
 function init() {
   updateDisplay();
-  setInterval(updateDisplay, 86400000); // 1일마다 상태 업데이트
-  move();
-  updateTimerCountdown(); // 이 줄이 있어야 타이머가 매 프레임 돌음
+  setInterval(updateDisplay, 1000);
+  setInterval(updateTimerCountdown, 1000);
   setInterval(updateBodyLength, 300);
+  setInterval(move, 100); // ✅ 이거 추가
   scheduleDailyStatusReset();
 }
 
