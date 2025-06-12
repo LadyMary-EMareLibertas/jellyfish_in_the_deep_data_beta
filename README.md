@@ -4,4 +4,5 @@
  medusaEnd: 7일
 
 url: https://jellyfish-in-the-deep-data-beta.vercel.app/
-최적화 완료 CPU 합계 4.6%
+
+최적화 완료 맥 기준 CPU 합계 4.6%
