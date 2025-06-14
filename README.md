@@ -1,3 +1,4 @@
+코드 건들이지 말 것 
  polyp: 3일
  ephyra: 7일
  medusa: 7일
